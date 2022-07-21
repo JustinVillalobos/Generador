@@ -43,7 +43,11 @@ module.exports = class Reportes {
     return res;
   }
   async reportByNombreEmbarcadorAndFechaAndidConsignatario() {
-    let parameters = [data];
+    let parameters = [
+      data.reporte.idConsignatario,
+      data.reporte.fechaCreacion,
+      data.reporte.nombreEmbarcador
+    ];
     let res = await this.promiseMethod("SELECT * FROM reporte where idConsignatario=? and fechaCreacion=? and nombreEmbarcador=?",parameters);
     return res;
   }

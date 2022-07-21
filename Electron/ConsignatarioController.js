@@ -43,7 +43,10 @@ module.exports = class Consignatario {
     return res;
   }
   async consignatarioByEmailAndName(data) {
-    let parameter = [data];
+    let parameters = [
+      data.correo,
+      data.nombre
+    ];
     let res = await this.promiseMethod("SELECT * FROM consignatario  WHERE correo=? and nombre=?", parameter);
     return res;
   }

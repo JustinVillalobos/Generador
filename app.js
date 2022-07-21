@@ -45,7 +45,7 @@ createWindow = () => {
     appWin = null;
   });
 };
-
+console.log("Index");
 app.on("ready", createWindow);
 
 app.on("window-all-closed", () => {
@@ -239,3 +239,85 @@ ipcMain.on("updateEmbarcador", (event, data) => {
 /****************************************************************************************************/
 
 /*EVENTOS Reportes*/
+ipcMain.on("allReportes", (event) => {
+  let res = reportesClass.allReportes();
+  res
+    .then((_data) => {
+      const convertedResponse = JSON.parse(JSON.stringify(_data[0]));
+      event.reply("allReportes", { res: true, reportes: convertedResponse });
+    })
+    .catch(() => {
+      event.reply("allReportes", { res: false });
+    });
+});
+ipcMain.on("reporteById", (event,data) => {
+  let res = reportesClass.reportetById(data);
+  res
+    .then((_data) => {
+      const convertedResponse = JSON.parse(JSON.stringify(_data[0]));
+      event.reply("reporteById", { res: true, reportes: convertedResponse });
+    })
+    .catch(() => {
+      event.reply("reporteById", { res: false });
+    });
+});
+
+ipcMain.on("saveReporte", (event,data) => {
+  let response = consignatarioClass.saveConsignatario(data);
+  respones
+    .then((_data) => {
+      let dataConsignatario = {
+        "correo":data.consignatario.correo,
+        "name":data.consignatario.nombre
+      }
+      response = consignatarioClass.consignatarioByEmailAndName(dataConsignatario);
+      response
+      .then((_dataConsignatario) => {
+        let convertedResponse = JSON.parse(JSON.stringify(_dataConsignatario[0]));
+        data.consignatario.idConsignatario = convertedResponse[0].idConsignatario;
+        console.log(data);
+        response = reportesClass.saveReporte(data);
+        response
+        .then((_data) => {
+          response = reportesClass.reportByNombreEmbarcadorAndFechaAndidConsignatario(data);
+          response
+          .then((_dataReporte) => {
+            let count = 0;
+            convertedResponse = JSON.parse(JSON.stringify(_dataReporte[0]));
+            console.log("*********************************************************");
+            for(let i=0;i<data.productos.length;i++){
+              data.productos[i].idReporte = convertedResponse[0].idReporte;
+              console.log(data);
+              response = reportesClass.savePackingList(data.productos[i]);
+              response
+              .then((_data) => {
+                count++;
+                if(count ==data.productos.length-1){
+                  event.reply("saveReporte", { res: true });
+                }
+                
+              })
+              .catch(() => {
+                event.reply("saveReporte", { res: false });
+              });
+            }
+           
+          })
+          .catch(() => {
+            event.reply("saveReporte", { res: false });
+          });
+        })
+        .catch(() => {
+          event.reply("saveReporte", { res: false });
+        });
+      })
+      .catch(() => {
+        event.reply("saveReporte", { res: false });
+      });
+    })
+    .catch(() => {
+      event.reply("saveReporte", { res: false });
+    });
+  let res = reportesClass.allReportes();
+  
+});
