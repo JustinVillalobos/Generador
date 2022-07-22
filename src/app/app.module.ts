@@ -5,7 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
+import { MedidasModule } from './pages/medidas/medidas.module';
+import { ProductosModule } from './pages/productos/productos.module';
 // Interceptors
 
 
@@ -18,6 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MedidasModule,
+    ProductosModule
   ],
   providers: [],
   bootstrap: [AppComponent]

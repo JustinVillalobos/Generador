@@ -42,7 +42,7 @@ export class InputFormComponent implements OnInit {
   isNumber(n) {
     return typeof n === 'number';
   }
-  validateInput(e) {
+  validateInput(e:any) {
     if (this.typed == 'number') {
       let digitos = document.all ? e.keyCode : e.which;
       let value = e.target.value;
@@ -52,9 +52,12 @@ export class InputFormComponent implements OnInit {
       if (numero >= 0 && numeroFuturo >= this.min && numeroFuturo <= this.max) {
         return true;
       } else {
+        
         e.preventDefault();
+        return false;
       }
     }
+    return false;
   }
   updateEvent(e) {
     this.updateValue.emit({ name: this.name, value: this.inputvalue });

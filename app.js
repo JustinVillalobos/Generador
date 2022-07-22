@@ -26,7 +26,7 @@ createWindow = () => {
   appWin = new BrowserWindow({
     width: width,
     height: height,
-    title: "Angular and Electron",
+    title: "Generador",
     resizable: false,
     autoHideMenuBar: true,
     webPreferences: {
@@ -36,7 +36,7 @@ createWindow = () => {
     },
   });
   appWin.maximize();
-
+console.log(__dirname);
   appWin.loadURL(`file://${__dirname}/dist/index.html`);
 
   //appWin.webContents.openDevTools();

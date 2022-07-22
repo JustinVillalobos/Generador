@@ -7,7 +7,6 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { AlertService } from 'src/app/shared/services/general/alert.service';
 @Component({
   selector: 'app-top-bar',
@@ -21,13 +20,13 @@ export class TopBarComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private _ngZone: NgZone,
-    private auth: AuthService,
+
     private AlertService: AlertService
   ) {}
 
   ngOnInit(): void {}
   ngOnDestroy(): void {
-    this.auth.removeAllListeners('reply');
+    
   }
   changeStatus(e) {
     this.detectChangeCheck.emit(true);
@@ -42,7 +41,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
       '¿Quieres cerrar la sesión?',
       function (response, component) {
         if (response == true) {
-          component.auth.logout();
+          
           component.goToLogin();
         }
       },
