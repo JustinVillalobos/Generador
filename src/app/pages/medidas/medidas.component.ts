@@ -11,6 +11,7 @@ import {
 import { Router } from '@angular/router';
 import { interval as observableInterval } from 'rxjs';
 import { takeWhile, scan, tap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SortType } from '@swimlane/ngx-datatable/esm2015/public-api';
 import { FooterComponent } from 'src/app/shared/components/footer/footer.component';
@@ -19,6 +20,10 @@ const electron = (<any>window).require('electron');
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { AlertService } from 'src/app/shared/services/general/alert.service';
 import { InputFormComponent } from 'src/app/shared/components/input-form/input-form.component';
+
+import { MedidasService } from 'src/app/shared/services/medidas.service';
+import { AddMedidaComponent } from 'src/app/shared/components/medidas/add-medida/add-medida.component';
+import { EditMedidaComponent } from 'src/app/shared/components/medidas/edit-medida/edit-medida.component';
 @Component({
   selector: 'app-medidas',
   templateUrl: './medidas.component.html',
@@ -48,14 +53,29 @@ export class MedidasComponent implements OnInit {
     private router: Router,
     private _ngZone: NgZone,
     private cdRef: ChangeDetectorRef,
-    private AlertService: AlertService
+    private AlertService: AlertService,
+    private MedidasService:MedidasService,
+    public dialog: MatDialog
   ) { 
     this.temp = this.rows;
+    this.allMedidas();
   }
 
   ngOnInit(): void {
   }
 
+  allMedidas(){
+    this.MedidasService.allMedidas();
+    electron.ipcRenderer.on('allMedidas', (event: any, data: any) => {
+      if (data['res']) {
+        console.log(data);
+        this.rows = data['medidas'];
+        this.temp = this.rows;
+        this.spinner.hide();
+        this.cdRef.detectChanges();
+      }
+    });
+  }
   /*Método que controla el DOM del aplicativo*/
   updateContent(e:any) {
     if (e) {
@@ -78,34 +98,16 @@ export class MedidasComponent implements OnInit {
     let val = e.value;
     val = val.toLowerCase();
     if (val != '' && val != ' ') {
-      /*const f = this.temp.filter(function (d) {
-        if (d.licensePlate != '' && d.licensePlate!=null && d.licensePlate!=undefined) {
-          if(d.placeOrigin!="" && d.placeOrigin!=null && d.placeOrigin!=undefined){
-             return (
-              d.name.toLowerCase().indexOf(val) !== -1 ||
-              d.placeOrigin.toLowerCase().indexOf(val) !== -1 ||
-              d.licensePlate.toLowerCase().indexOf(val) !== -1
+      const f = this.temp.filter(function (d) {
+        if (d.descripcion != '' && d.descripcion!=null && d.descripcion!=undefined) {
+          return (
+              d.descripcion.toLowerCase().indexOf(val) !== -1 
             );
-           }else{
-              return (
-              d.name.toLowerCase().indexOf(val) !== -1 ||
-              d.licensePlate.toLowerCase().indexOf(val) !== -1
-            );
-           }
          
-        } else {
-            if(d.placeOrigin!="" && d.placeOrigin!=null && d.placeOrigin!=undefined){
-              return (
-                d.name.toLowerCase().indexOf(val) !== -1 ||
-                d.placeOrigin.toLowerCase().indexOf(val) !== -1
-              );
-            }else{
-              return (
-                d.name.toLowerCase().indexOf(val) !== -1
-              );
-            }
+        }else{
+          return true;
         }
-      });*/
+      });
     //  this.rows = f;
       this.pageNumber = 0;
     } else {
@@ -161,12 +163,38 @@ export class MedidasComponent implements OnInit {
       .subscribe();
   }
   addMedidad(){
-
+    let dialogRef = this.dialog.open(AddMedidaComponent, {
+      height: '250px',
+      width: '450px',
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.spinner.show();
+      this.allMedidas();
+    });
+  }
+  openEditModal(idMedida:number,descripcion:string){
+    
+    let dialogRef = this.dialog.open(EditMedidaComponent, {
+      height: '250px',
+      width: '450px',
+      data: {idMedida:idMedida,descripcion:descripcion},
+    });
+    this._ngZone.run(() => {
+      this.cdRef.detectChanges();
+      setTimeout(() => {
+        this.cdRef.detectChanges();
+      },100);
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.spinner.show();
+      this.allMedidas();
+    });
   }
   ngOnDestroy(): void {
-    /*electron.ipcRenderer.removeAllListeners('allMedidas');
+    electron.ipcRenderer.removeAllListeners('allMedidas');
     electron.ipcRenderer.removeAllListeners('addMedida');
     electron.ipcRenderer.removeAllListeners('updateMedida');
-    electron.ipcRenderer.removeAllListeners('deleteMedida');*/
+    //electron.ipcRenderer.removeAllListeners('deleteMedida');
   }
 }

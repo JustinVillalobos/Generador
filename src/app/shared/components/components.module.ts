@@ -15,20 +15,20 @@ import { InputFormComponent } from 'src/app/shared/components/input-form/input-f
     TopBarComponent,
     LeftSideBarComponent,
     FooterComponent,
-    InputFormComponent,
+    InputFormComponent
   ],
   imports:[
     CommonModule,
     MaterialsModule,
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
   exports: [
    HeaderComponent,
     TopBarComponent,
     LeftSideBarComponent,
     FooterComponent,
-    InputFormComponent,
+    InputFormComponent
   ]
 })
 export class ComponentsModule { }

@@ -34,7 +34,7 @@ module.exports = class Medidas {
     }
   }
   async allMedidas() {
-    let res = await this.promiseMethod("SELECT * FROM medidas;", "");
+    let res = await this.promiseMethod("SELECT * FROM medidas", "");
     return res;
   }
   async medidaById(data) {
@@ -49,7 +49,7 @@ module.exports = class Medidas {
   }
   async addMedida(data) {
     let parameters = [
-      data.medida.descripcion,
+      data.descripcion,
     ];
     let res = await this.promiseMethod(
       "INSERT INTO medidas VALUES(null,?)",
@@ -59,8 +59,8 @@ module.exports = class Medidas {
   }
   async updateMedida(data) {
     let parameters = [
-      data.medida.descripcion,
-      data.medida.idMedida
+      data.descripcion,
+      data.idMedida
     ];
     let res = await this.promiseMethod(
       "UPDATE medidas set descripcion=? WHERE idMedida=?",

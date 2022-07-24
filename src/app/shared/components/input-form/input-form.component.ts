@@ -24,6 +24,7 @@ export class InputFormComponent implements OnInit {
   @Input() isRequired: boolean;
   @Input() isFirst: boolean;
   @Input() isSearch: boolean;
+  @Input() isFocus:boolean;
   @Input() rows: number;
   inputvalue: string = '';
   @Output() updateValue = new EventEmitter<any>();
@@ -57,9 +58,9 @@ export class InputFormComponent implements OnInit {
         return false;
       }
     }
-    return false;
+    return true;
   }
-  updateEvent(e) {
+  updateEvent(e:any) {
     this.updateValue.emit({ name: this.name, value: this.inputvalue });
   }
   setText(text: string) {

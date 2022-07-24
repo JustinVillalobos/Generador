@@ -36,10 +36,9 @@ createWindow = () => {
     },
   });
   appWin.maximize();
-console.log(__dirname);
   appWin.loadURL(`file://${__dirname}/dist/index.html`);
 
-  //appWin.webContents.openDevTools();
+  appWin.webContents.openDevTools();
 
   appWin.on("closed", () => {
     appWin = null;
@@ -59,11 +58,11 @@ ipcMain.on("allMedidas", (event) => {
   let res = medidasClass.allMedidas();
   res
     .then((_data) => {
-      const convertedResponse = JSON.parse(JSON.stringify(_data[0]));
-      event.reply("medidasClass", { res: true, medidas: convertedResponse });
+      const convertedResponse = JSON.parse(JSON.stringify(_data));
+      event.reply("allMedidas", { res: true, medidas: convertedResponse });
     })
     .catch(() => {
-      event.reply("medidasClass", { res: false });
+      event.reply("allMedidas", { res: false });
     });
 });
 ipcMain.on("medidaById", (event,data) => {
@@ -99,13 +98,15 @@ ipcMain.on("addMedida", (event, data) => {
 ipcMain.on("editMedida", (event, data) => {
   const validateName =validations.FormatoAlfaNumerico(data.descripcion, 55);
   const validateId = validations.FormatoNumerico(data.idMedida);
+  console.log("Ingreso",data,data.descripcion);
   if (validateName && validateId) {
     let res = medidasClass.updateMedida(data);
     res
       .then((_data) => {
         event.reply("editMedida", { res: true });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         event.reply("editMedida", { res: false });
       });
   } else {
@@ -136,7 +137,7 @@ ipcMain.on("allProductos", (event) => {
   let res = productosClass.allProductos();
   res
     .then((_data) => {
-      const convertedResponse = JSON.parse(JSON.stringify(_data[0]));
+      const convertedResponse = JSON.parse(JSON.stringify(_data));
       event.reply("allProductos", { res: true, productos: convertedResponse });
     })
     .catch(() => {
@@ -203,7 +204,7 @@ ipcMain.on("allEmbarcadores", (event) => {
   let res = embarcadorClass.allProductos();
   res
     .then((_data) => {
-      const convertedResponse = JSON.parse(JSON.stringify(_data[0]));
+      const convertedResponse = JSON.parse(JSON.stringify(_data));
       event.reply("allEmbarcadores", { res: true, embarcadores: convertedResponse });
     })
     .catch(() => {
@@ -243,7 +244,7 @@ ipcMain.on("allReportes", (event) => {
   let res = reportesClass.allReportes();
   res
     .then((_data) => {
-      const convertedResponse = JSON.parse(JSON.stringify(_data[0]));
+      const convertedResponse = JSON.parse(JSON.stringify(_data));
       event.reply("allReportes", { res: true, reportes: convertedResponse });
     })
     .catch(() => {

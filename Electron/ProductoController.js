@@ -44,10 +44,10 @@ module.exports = class Producto {
   }
   async addProducto(data) {
     let parameters = [
-      data.producto.descripcion,
-      data.producto.precio_neto,
-      data.producto.precio_bruto,
-      data.producto.medida.idMedida
+      data.descripcion,
+      data.peso_neto,
+      data.peso_bruto,
+      data.medida.idMedida
     ];
     let res = await this.promiseMethod(
       "INSERT INTO producto VALUES(null,?,?,?,?)",
@@ -57,11 +57,11 @@ module.exports = class Producto {
   }
   async updateProducto(data) {
     let parameters = [
-      data.producto.descripcion,
-      data.producto.precio_neto,
-      data.producto.precio_bruto,
-      data.producto.medida.idMedida,
-      data.producto.idProducto
+      data.descripcion,
+      data.peso_neto,
+      data.peso_bruto,
+      data.medida.idMedida,
+      data.idProducto
     ];
     let res = await this.promiseMethod(
       "UPDATE producto set descripcion=?, precio_neto=?,precio_bruto=?,idMedida=? WHERE idProducto=?",

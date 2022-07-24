@@ -8,9 +8,14 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { MedidasComponent } from './medidas.component';
+import { AddMedidaComponent } from 'src/app/shared/components/medidas/add-medida/add-medida.component';
+import { EditMedidaComponent } from 'src/app/shared/components/medidas/edit-medida/edit-medida.component';
+
 @NgModule({
   declarations: [
-    MedidasComponent
+    MedidasComponent,
+    AddMedidaComponent,
+    EditMedidaComponent
   ],
   imports: [
     CommonModule,
