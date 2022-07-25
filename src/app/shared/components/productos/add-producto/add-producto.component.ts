@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ChangeDetectorRef} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ValidationsService } from 'src/app/shared/services/general/validations.service';
 import { AlertService } from 'src/app/shared/services/general/alert.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 const electron = (<any>window).require('electron');
 import { ProductosService } from 'src/app/shared/services/productos.service';
+import { MedidasService } from 'src/app/shared/services/medidas.service';
 @Component({
   selector: 'app-add-producto',
   templateUrl: './add-producto.component.html',
@@ -38,19 +39,34 @@ export class AddProductoComponent implements OnInit {
     private validation: ValidationsService,
     private AlertService: AlertService,
     private ProductosService: ProductosService,
-    private spinner: NgxSpinnerService
-  ) { }
+    private spinner: NgxSpinnerService,
+    private cdRef: ChangeDetectorRef,
+    private MedidasService:MedidasService
+  ) {
+    this.allMedidas();
+   }
 
   ngOnInit(): void {
+  }
+  allMedidas(){
+    this.MedidasService.allMedidas();
+    electron.ipcRenderer.on('allMedidas', (event: any, data: any) => {
+      if (data['res']) {
+        console.log(data);
+        this.items = data['medidas'];
+      
+        this.cdRef.detectChanges();
+      }
+    });
   }
   updateValue(e:any) {
     console.log(e);
     if(e.name == "descripcion"){
-
+      this.producto.descripcion = e.value;
     }else if(e.name =="peso_neto"){
-
+      this.producto.peso_neto = e.value;
     }else if(e.name =="peso_bruto"){
-      
+      this.producto.peso_bruto = e.value;
     }
   }
   updateSelect(e){
@@ -64,7 +80,6 @@ export class AddProductoComponent implements OnInit {
           this.AlertService.alertTimeCorrect(
             'Información guardada con éxito',
             function (_component) {
-              _component.medida.addMedida = '';
               _component.dialog.closeAll();
             },
             this

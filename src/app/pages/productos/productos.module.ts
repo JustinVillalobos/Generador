@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule,DecimalPipe } from '@angular/common';
 
 import { ProductosRoutingModule } from './productos-routing.module';
 import { MaterialsModule } from "src/app/materials.module";
@@ -28,6 +28,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NgxDatatableModule,
     FormsModule,
     ReactiveFormsModule
-  ]
+  ],
+  providers: [ DecimalPipe],
 })
 export class ProductosModule { }

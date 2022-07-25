@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Agregar Medida</h1>
 <div mat-dialog-content>
-  <div class="row" style="height: 85px">
+  <div class="row" style="height: 400px;">
     <div class="col-sm-12">
       <app-input-form
         [typeComponent]="'input'"
@@ -28,15 +28,6 @@
           [isRequired]="true"
         ></app-input-form>
         <div class="col-sm-12">
-      <app-input-form
-        [typeComponent]="'input'"
-        [typed]="'text'"
-        [label]="'Descripción'"
-        [placeholder]="'Ingrese el nombre de la medida'"
-        [name]="'descripcion'"
-        (updateValue)="updateValue($event)"
-        [isRequired]="true"
-      ></app-input-form>
       <div class="msg-error-container">
         <span *ngIf="isInvalidPesoN" class="msg-error">{{
           errorInputPesoN
@@ -66,15 +57,19 @@
         </div>
       </div>
       <div class="col-sm-12">
-        <mat-select
-        placeholder="Seleccione un item"
-        [(ngModel)]="producto.medida.idMedida"
-        (selectionChange)="updateSelect($event)"
-      >
-        <mat-option *ngFor="let item of items" value="{{ item.idMedida }}">{{
-          item.descripcion
-        }}</mat-option>
-      </mat-select>
+        <mat-form-field appearance="fill" class="ucr-form-field">
+          <mat-label >Medida<span class="ucr-required"> *</span></mat-label
+          >
+            <mat-select
+            placeholder="Seleccione un item"
+            [(ngModel)]="producto.medida.idMedida"
+            (selectionChange)="updateSelect($event)"
+          >
+            <mat-option *ngFor="let item of items" value="{{ item.idMedida }}">{{
+              item.descripcion
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
         <div class="msg-error-container">
           <span *ngIf="isInvalidDescripcion" class="msg-error">{{
             errorInputDescripcion

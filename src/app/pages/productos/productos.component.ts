@@ -13,6 +13,7 @@ import { interval as observableInterval } from 'rxjs';
 import { takeWhile, scan, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
+import {DecimalPipe} from '@angular/common'
 import { SortType } from '@swimlane/ngx-datatable/esm2015/public-api';
 import { FooterComponent } from 'src/app/shared/components/footer/footer.component';
 const electron = (<any>window).require('electron');
@@ -23,7 +24,7 @@ import { InputFormComponent } from 'src/app/shared/components/input-form/input-f
 
 import { ProductosService } from 'src/app/shared/services/productos.service';
 import { AddProductoComponent } from 'src/app/shared/components/productos/add-producto/add-producto.component';
-import { EditMedidaComponent } from 'src/app/shared/components/medidas/edit-medida/edit-medida.component';
+import { EditProductoComponent } from 'src/app/shared/components/productos/edit-producto/edit-producto.component';
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
@@ -56,8 +57,10 @@ export class ProductosComponent implements OnInit {
     private cdRef: ChangeDetectorRef,
     private AlertService: AlertService,
     private ProductosService:ProductosService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public decimalPipe:DecimalPipe
   ) { 
+    this.spinner.show();
     this.temp = this.rows;
     this.allProductos();
   }
@@ -108,7 +111,7 @@ export class ProductosComponent implements OnInit {
           return true;
         }
       });
-    //  this.rows = f;
+      this.rows = f;
       this.pageNumber = 0;
     } else {
       this.rows = this.temp;
@@ -171,12 +174,12 @@ export class ProductosComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       this.spinner.show();
-     // this.allMedidas();
+      this.allProductos();
     });
   }
   openEdit(row:any){
     
-    let dialogRef = this.dialog.open(EditMedidaComponent, {
+    let dialogRef = this.dialog.open(EditProductoComponent, {
       height: '550px',
       width: '450px',
       data: {producto:row},
@@ -189,14 +192,13 @@ export class ProductosComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       this.spinner.show();
-      //this.allMedidas();
+      this.allProductos();
     });
   }
   ngOnDestroy(): void {
-    electron.ipcRenderer.removeAllListeners('allMedidas');
-    electron.ipcRenderer.removeAllListeners('addMedida');
-    electron.ipcRenderer.removeAllListeners('updateMedida');
-    //electron.ipcRenderer.removeAllListeners('deleteMedida');
+    electron.ipcRenderer.removeAllListeners('allProductos');
+    electron.ipcRenderer.removeAllListeners('addProducto');
+    electron.ipcRenderer.removeAllListeners('updateProducto');
   }
 
 }

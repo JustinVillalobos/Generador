@@ -1,0 +1,50 @@
+<app-header (updateContent)="updateContent($event)"></app-header>
+<div class="content" #pRef>
+  <div class="row">
+    <div class="col-sm-12 d-flex justify-content-start margin-left-custom">
+      <div style="width: 950px" class="inline">
+        <div class="col-sm-6 d-flex">
+          <div class="inline">
+            <div class="container-titulo">
+              <span class="titulo">Reporte</span>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="col-sm-12 margin-left-custom">
+      <div class="row" style="width:560px">
+        <div class="col-sm-6 d-flex justify-content-start ">
+          <div class="inline">
+           
+          </div>
+        </div>
+  
+      <div class="col-sm-6 d-flex justify-content-end">
+        <div class="inline">
+          
+        </div>
+        
+      </div>
+      </div>
+    </div>
+  <div class="row">
+    <div
+      class="col-sm-12 d-flex justify-content-center margin-left-custom"
+      style="overflow-x: auto;width: 500px !important;"
+    >
+    
+    </div>
+  </div>
+  </div>
+</div>
+<app-footer #footer></app-footer>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#ffffff"
+  type="ball-clip-rotate"
+  [fullScreen]="true"
+  ><p style="color: white">Cargando...</p></ngx-spinner
+>

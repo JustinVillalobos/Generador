@@ -161,9 +161,9 @@ ipcMain.on("productoById", (event,data) => {
 
 ipcMain.on("addProducto", (event, data) => {
   const validateName =validations.FormatoAlfaNumerico(data.descripcion, 125);
-  const validatePrecioNeto =data.precio_neto.length!=0;
-  const validatePrecioBruto =data.precio_bruto.length!=0;
-  if (validateName && validatePrecioNeto && validatePrecioBruto) {
+  const validatePesoNeto =data.peso_neto.length!=0;
+  const validatePesoBruto =data.peso_bruto.length!=0;
+  if (validateName && validatePesoNeto && validatePesoBruto) {
     let res = productosClass.addProducto(data);
     res
       .then((_data) => {
@@ -185,7 +185,8 @@ ipcMain.on("updateProducto", (event, data) => {
       .then((_data) => {
         event.reply("updateProducto", { res: true });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         event.reply("updateProducto", { res: false });
       });
   } else {
@@ -217,15 +218,16 @@ ipcMain.on("updateEmbarcador", (event, data) => {
   const validateName =validations.FormatoAlfaNumerico(data.nombreEmpresa, 150);
   const validateCorreo =validations.FormatoAlfaNumerico(data.correo, 75);
   const validateDireccion =validations.FormatoAlfaNumerico(data.direccion, 200);
-  const validatePBX =validations.FormatoAlfaNumerico(data.direccion, 25);
-  const validateId = validations.FormatoNumerico(data.medida.idEmbarcador);
+  const validatePBX =validations.FormatoAlfaNumerico(data.pbx, 25);
+  const validateId = validations.FormatoNumerico(data.idEmbarcador);
   if (validateName && validateId && validateCorreo && validateDireccion && validatePBX) {
     let res = embarcadorClass.updateEmbarcador(data);
     res
       .then((_data) => {
         event.reply("updateEmbarcador", { res: true });
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         event.reply("updateEmbarcador", { res: false });
       });
   } else {

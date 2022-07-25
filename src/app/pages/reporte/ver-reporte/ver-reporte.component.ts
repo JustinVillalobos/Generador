@@ -13,6 +13,7 @@ import { interval as observableInterval } from 'rxjs';
 import { takeWhile, scan, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
+import {DecimalPipe} from '@angular/common'
 import { SortType } from '@swimlane/ngx-datatable/esm2015/public-api';
 import { FooterComponent } from 'src/app/shared/components/footer/footer.component';
 const electron = (<any>window).require('electron');
@@ -21,15 +22,13 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { AlertService } from 'src/app/shared/services/general/alert.service';
 import { InputFormComponent } from 'src/app/shared/components/input-form/input-form.component';
 
-import { MedidasService } from 'src/app/shared/services/medidas.service';
-import { AddMedidaComponent } from 'src/app/shared/components/medidas/add-medida/add-medida.component';
-import { EditMedidaComponent } from 'src/app/shared/components/medidas/edit-medida/edit-medida.component';
 @Component({
-  selector: 'app-medidas',
-  templateUrl: './medidas.component.html',
-  styleUrls: ['./medidas.component.scss']
+  selector: 'app-ver-reporte',
+  templateUrl: './ver-reporte.component.html',
+  styleUrls: ['./ver-reporte.component.scss']
 })
-export class MedidasComponent implements OnInit {
+export class VerReporteComponent implements OnInit {
+
   @ViewChild('pRef', { static: false }) pRef: ElementRef;
   SelectStatus: InputFormComponent;
   @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -54,28 +53,17 @@ export class MedidasComponent implements OnInit {
     private _ngZone: NgZone,
     private cdRef: ChangeDetectorRef,
     private AlertService: AlertService,
-    private MedidasService:MedidasService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public decimalPipe:DecimalPipe
   ) { 
-    this.temp = this.rows;
-    this.allMedidas();
+    //this.spinner.show();
+   // this.temp = this.rows;
+   
   }
-
   ngOnInit(): void {
   }
 
-  allMedidas(){
-    this.MedidasService.allMedidas();
-    electron.ipcRenderer.on('allMedidas', (event: any, data: any) => {
-      if (data['res']) {
-        console.log(data);
-        this.rows = data['medidas'];
-        this.temp = this.rows;
-        this.spinner.hide();
-        this.cdRef.detectChanges();
-      }
-    });
-  }
+ 
   /*Método que controla el DOM del aplicativo*/
   updateContent(e:any) {
     if (e) {
@@ -162,39 +150,5 @@ export class MedidasComponent implements OnInit {
       )
       .subscribe();
   }
-  addMedidad(){
-    let dialogRef = this.dialog.open(AddMedidaComponent, {
-      height: '250px',
-      width: '450px',
-      data: {},
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      this.spinner.show();
-      this.allMedidas();
-    });
-  }
-  openEditModal(idMedida:number,descripcion:string){
-    
-    let dialogRef = this.dialog.open(EditMedidaComponent, {
-      height: '250px',
-      width: '450px',
-      data: {idMedida:idMedida,descripcion:descripcion},
-    });
-    this._ngZone.run(() => {
-      this.cdRef.detectChanges();
-      setTimeout(() => {
-        this.cdRef.detectChanges();
-      },100);
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      this.spinner.show();
-      this.allMedidas();
-    });
-  }
-  ngOnDestroy(): void {
-    electron.ipcRenderer.removeAllListeners('allMedidas');
-    electron.ipcRenderer.removeAllListeners('addMedida');
-    electron.ipcRenderer.removeAllListeners('updateMedida');
-    //electron.ipcRenderer.removeAllListeners('deleteMedida');
-  }
+
 }

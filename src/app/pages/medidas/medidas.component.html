@@ -10,54 +10,58 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-6 d-flex justify-content-end">
+        
+      </div>
+    </div>
+    <div class="col-sm-12 margin-left-custom">
+      <div class="row" style="width:560px">
+        <div class="col-sm-6 d-flex justify-content-start ">
           <div class="inline">
             <app-input-form
-              [typeComponent]="'input'"
-              [typed]="'text'"
-              [placeholder]="'Buscar...'"
-              [name]="'input1'"
-              [isSearch]="true"
-              (updateValue)="updateValue($event)"
+              [typeComponent]="'select'"
+              [label]="'Mostrar'"
+              [items]="[
+                { name: '10' },
+                { name: '15' },
+                { name: '25' },
+                { name: '50' },
+                { name: '100' }
+              ]"
+              [placeholder]="'Seleccione informacion'"
+              (updateValue)="updateShow($event)"
+              [value]="'10'"
             ></app-input-form>
-            <button
-              class="btn btn-primary btn-margin"
-              (click)="addMedidad()"
-              matTooltip="Agregar medida"
-              matTooltipPosition="right"
-              aria-label="Button that displays a tooltip when focused or hovered over"
-            >
-              <i class="fas fa-plus"></i>
-            </button>
           </div>
-          
         </div>
+  
+      <div class="col-sm-6 d-flex justify-content-end">
+        <div class="inline">
+          <app-input-form
+            [typeComponent]="'input'"
+            [typed]="'text'"
+            [placeholder]="'Buscar...'"
+            [name]="'input1'"
+            [isSearch]="true"
+            (updateValue)="updateValue($event)"
+          ></app-input-form>
+          <button
+            class="btn btn-primary btn-margin"
+            (click)="addMedidad()"
+            matTooltip="Agregar medida"
+            matTooltipPosition="right"
+            aria-label="Button that displays a tooltip when focused or hovered over"
+          >
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        
+      </div>
       </div>
     </div>
-    <div class="col-sm-12 d-flex justify-content-start margin-left-custom">
-      <div class="inline">
-        <app-input-form
-          [typeComponent]="'select'"
-          [label]="'Mostrar'"
-          [items]="[
-            { name: '10' },
-            { name: '15' },
-            { name: '25' },
-            { name: '50' },
-            { name: '100' }
-          ]"
-          [placeholder]="'Seleccione informacion'"
-          (updateValue)="updateShow($event)"
-          [value]="'10'"
-        ></app-input-form>
-      </div>
-    </div>
-  </div>
-      
   <div class="row">
     <div
-      class="col-sm-12 d-flex justify-content-start margin-left-custom"
-      style="overflow-x: auto"
+      class="col-sm-12 d-flex justify-content-center margin-left-custom"
+      style="overflow-x: auto;width: 500px !important;"
     >
     <ngx-datatable
         [rows]="rows"
@@ -110,6 +114,7 @@
         </ngx-datatable-column>
       </ngx-datatable>
     </div>
+  </div>
   </div>
 </div>
 <app-footer #footer></app-footer>

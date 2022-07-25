@@ -7,8 +7,16 @@ const routes: Routes = [
     loadChildren: () => import('./pages/medidas/medidas.module').then(m => m.MedidasModule)
   },
   {
-    path: '',
+    path: 'productos',
     loadChildren: () => import('./pages/productos/productos.module').then(m => m.ProductosModule)
+  },
+  {
+    path: 'empresa',
+    loadChildren: () => import('./pages/embarcador/embarcador.module').then(m => m.EmbarcadorModule)
+  },
+  {
+    path: '',
+    loadChildren: () => import('./pages/reporte/reporte.module').then(m => m.ReporteModule)
   }
 ];
 

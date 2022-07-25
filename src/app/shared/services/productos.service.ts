@@ -13,6 +13,6 @@ export class ProductosService {
     electron.ipcRenderer.send('addProducto',data);
   }
  updateProducto(data:any) {
-    electron.ipcRenderer.send('editProducto',data);
+    electron.ipcRenderer.send('updateProducto',data);
   }
 }

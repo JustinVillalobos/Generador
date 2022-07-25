@@ -1,7 +1,7 @@
 <app-header (updateContent)="updateContent($event)"></app-header>
 <div class="content" #pRef>
   <div class="row">
-    <div class="col-sm-12 d-flex justify-content-start margin-left-custom">
+    <div class="col-sm-12 d-flex justify-content-start">
       <div style="width: 950px" class="inline">
         <div class="col-sm-6 d-flex">
           <div class="inline">
@@ -10,6 +10,30 @@
             </div>
           </div>
         </div>
+        
+      </div>
+    </div>
+    <div class="col-sm-12 margin-left-custom">
+      <div class="row" style="width:560px">
+        <div class="col-sm-6 d-flex justify-content-start ">
+          <div class="inline">
+            <app-input-form
+              [typeComponent]="'select'"
+              [label]="'Mostrar'"
+              [items]="[
+                { name: '10' },
+                { name: '15' },
+                { name: '25' },
+                { name: '50' },
+                { name: '100' }
+              ]"
+              [placeholder]="'Seleccione informacion'"
+              (updateValue)="updateShow($event)"
+              [value]="'10'"
+            ></app-input-form>
+          </div>
+        </div>
+  
         <div class="col-sm-6 d-flex justify-content-end">
           <div class="inline">
             <app-input-form
@@ -34,27 +58,8 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-12 d-flex justify-content-start margin-left-custom">
-      <div class="inline">
-        <app-input-form
-          [typeComponent]="'select'"
-          [label]="'Mostrar'"
-          [items]="[
-            { name: '10' },
-            { name: '15' },
-            { name: '25' },
-            { name: '50' },
-            { name: '100' }
-          ]"
-          [placeholder]="'Seleccione informacion'"
-          (updateValue)="updateShow($event)"
-          [value]="'10'"
-        ></app-input-form>
-      </div>
     </div>
-  </div>
-      
-  <div class="row">
+      <div class="row">
     <div
       class="col-sm-12 d-flex justify-content-start margin-left-custom"
       style="overflow-x: auto"
@@ -79,13 +84,13 @@
         <ngx-datatable-column name="Peso Neto" [width]="120" [sortable]="false"
           [resizeable]="false">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.peso_neto }}
+            {{ decimalPipe.transform(row.peso_neto,"1.0-2") }}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column name="Peso Bruto" [width]="120" [sortable]="false"
           [resizeable]="false">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            {{ row.peso_bruto }}
+            {{ decimalPipe.transform(row.peso_bruto,"1.0-2")  }}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column
@@ -97,7 +102,7 @@
           <ng-template let-column="column" ngx-datatable-header-template>
             <div
               class="div-custom-icon"
-              matTooltip="Editar medida"
+              matTooltip="Editar Producto"
               matTooltipPosition="right"
               aria-label="Button that displays a tooltip when focused or hovered over"
             >

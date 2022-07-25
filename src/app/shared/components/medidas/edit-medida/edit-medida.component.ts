@@ -31,9 +31,7 @@ export class EditMedidaComponent implements OnInit {
    // console.log(this.data,"Ingreso");
     this.medida.idMedida = this.data.idMedida;
     this.medida.descripcion= this.data.descripcion;
-   setTimeout(() => {
-    
-   },100);
+
  
   }
 

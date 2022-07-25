@@ -34,7 +34,7 @@ module.exports = class Producto {
     }
   }
   async allProductos() {
-    let res = await this.promiseMethod("SELECT p.*,m.descripcion as nombreMedida FROM producto p INNER JOIN medidas m ON p.idMedida=m.idMedida", "");
+    let res = await this.promiseMethod("SELECT p.*,m.idMedida as id, m.descripcion as nombreMedida FROM producto p INNER JOIN medidas m ON p.idMedida=m.idMedida", "");
     return res;
   }
   async productById(data) {
@@ -64,7 +64,7 @@ module.exports = class Producto {
       data.idProducto
     ];
     let res = await this.promiseMethod(
-      "UPDATE producto set descripcion=?, precio_neto=?,precio_bruto=?,idMedida=? WHERE idProducto=?",
+      "UPDATE producto set descripcion=?, peso_neto=?,peso_bruto=?,idMedida=? WHERE idProducto=?",
       parameters
     );
     return res;

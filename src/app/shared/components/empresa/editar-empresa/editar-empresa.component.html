@@ -1,0 +1,97 @@
+<h1 mat-dialog-title>Modificar Empresa</h1>
+<div mat-dialog-content>
+  <div class="row" style="height: 450px">
+    <div class="col-sm-12">
+        <app-input-form
+        [typeComponent]="'input'"
+        [typed]="'text'"
+        [label]="'Nombre de la emprea'"
+        [placeholder]="'Ingrese el nombre de la empresa'"
+        [name]="'nombreEmpresa'"
+        (updateValue)="updateValue($event)"
+        [isRequired]="true"
+        [value]="empresa.nombreEmpresa"
+      ></app-input-form>
+
+      <div class="msg-error-container">
+        <span *ngIf="isInvalidDescripcion" class="msg-error">{{
+          errorInputDescripcion
+        }}</span>
+      </div>
+    </div>
+    <div class="col-sm-12">
+        <app-input-form
+        [typeComponent]="'input'"
+        [typed]="'textarea'"
+        [label]="'Dirección'"
+        [placeholder]="'Ingrese Dirección de la empresa'"
+        [name]="'direccion'"
+        (updateValue)="updateValue($event)"
+        [isRequired]="true"
+        [value]="empresa.direccion"
+      ></app-input-form>
+
+      <div class="msg-error-container">
+        <span *ngIf="isInvalidDescripcion" class="msg-error">{{
+          errorInputDescripcion
+        }}</span>
+      </div>
+    </div>
+    <div class="col-sm-12">
+        <app-input-form
+        [typeComponent]="'input'"
+        [typed]="'text'"
+        [label]="'Ingrese el PBX'"
+        [placeholder]="'Ingrese el número de contaco'"
+        [name]="'pbx'"
+        (updateValue)="updateValue($event)"
+        [isRequired]="true"
+        [value]="empresa.pbx"
+      ></app-input-form>
+
+      <div class="msg-error-container">
+        <span *ngIf="isInvalidDescripcion" class="msg-error">{{
+          errorInputDescripcion
+        }}</span>
+      </div>
+    </div>
+    <div class="col-sm-12">
+        <app-input-form
+        [typeComponent]="'input'"
+        [typed]="'text'"
+        [label]="'Ingrese el correo de la empresa'"
+        [placeholder]="'Ingrese el correo de la empresa'"
+        [name]="'correo'"
+        (updateValue)="updateValue($event)"
+        [isRequired]="true"
+        [value]="empresa.correo"
+      ></app-input-form>
+
+      <div class="msg-error-container">
+        <span *ngIf="isInvalidDescripcion" class="msg-error">{{
+          errorInputDescripcion
+        }}</span>
+      </div>
+    </div>
+    <div class="col-sm-12">
+        
+      <button
+        class="btn btn-primary"
+        matTooltip="Guardar Datos"
+        matTooltipPosition="right"
+        aria-label="Button that displays a tooltip when focused or hovered over"
+        (click)="save()"
+      >
+        <i class="far fa-save"></i><label>Guardar</label>
+      </button>
+    </div>
+  </div>
+</div>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#ffffff"
+  type="ball-clip-rotate"
+  [fullScreen]="true"
+  ><p style="color: white">Cargando...</p></ngx-spinner
+>

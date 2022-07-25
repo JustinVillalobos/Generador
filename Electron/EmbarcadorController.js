@@ -45,11 +45,11 @@ module.exports = class Embarcador {
 
   async updateEmbarcador(data) {
     let parameters = [
-      data.embarcador.nombreEmpresa,
-      data.embarcador.direccion,
-      data.embarcador.pbx,
-      data.embarcador.correo,
-      data.embarcador.idEmbarcador
+      data.nombreEmpresa,
+      data.direccion,
+      data.pbx,
+      data.correo,
+      data.idEmbarcador
     ];
     let res = await this.promiseMethod(
       "UPDATE embarcador set nombreEmpresa=?, direccion=?,pbx=?,correo=? WHERE idEmbarcador=?",
