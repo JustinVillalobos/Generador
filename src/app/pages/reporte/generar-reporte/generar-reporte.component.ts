@@ -609,14 +609,6 @@ export class GenerarReporteComponent implements OnInit {
       contadorErrores++;
       errores+="Campo Total Factura Requerido<br>";
     }
-    if( this.reporte.totalFactura+"".length>25){
-      contadorErrores++;
-      errores+="Campo Total Factura  con demasiados caracteres<br>";
-    }
-    if( this.reporte.flete+"".length>25){
-      contadorErrores++;
-      errores+="Campo Flete  con demasiados caracteres<br>";
-    }
     if(this.reporte.flete+"".length==0){
       contadorErrores++;
       errores+="Campo Flete Requerido<br>";
@@ -642,6 +634,9 @@ export class GenerarReporteComponent implements OnInit {
           },
           this
         );
+      }else{
+        this.spinner.hide();
+        this.AlertService.alertaError("Codigo de factura repetido");
       }
     });
    // 

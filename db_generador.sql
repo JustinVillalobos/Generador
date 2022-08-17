@@ -3,10 +3,10 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-07-2022 a las 03:25:53
+-- Tiempo de generación: 17-08-2022 a las 15:46:41
 -- Versión del servidor: 10.4.6-MariaDB
 -- Versión de PHP: 7.3.9
-
+DROP database db_generador;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
@@ -27,7 +27,8 @@ SET time_zone = "+00:00";
 --
 -- Estructura de tabla para la tabla `consignatario`
 --
-
+create database db_generador;
+use db_generador;
 CREATE TABLE `consignatario` (
   `idConsignatario` int(11) NOT NULL,
   `nombreEmpresa` varchar(150) NOT NULL,
@@ -42,7 +43,7 @@ CREATE TABLE `consignatario` (
 --
 
 INSERT INTO `consignatario` (`idConsignatario`, `nombreEmpresa`, `direccion`, `telefono`, `nombre`, `correo`) VALUES
-(1, 'Empresa S.A', 'Plaza Central', '55555555', 'Empresa', 'Empresa@empresa.net');
+(1, 'Empresa S.A', 'Plaza Central', '55555555', 'Empresa', 'Empresas@empresa.net');
 
 -- --------------------------------------------------------
 
@@ -81,9 +82,7 @@ CREATE TABLE `medidas` (
 --
 
 INSERT INTO `medidas` (`idMedida`, `descripcion`) VALUES
-(1, 'piezas'),
-(3, 'kilos'),
-(4, 'Gramos');
+(1, 'piezas');
 
 -- --------------------------------------------------------
 
@@ -95,16 +94,20 @@ CREATE TABLE `packing_list` (
   `idReporte` int(11) NOT NULL,
   `idProducto` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
-  `totalPeso` int(11) NOT NULL,
-  `bultos` int(11) NOT NULL
+  `totalPeso` float NOT NULL,
+  `bultos` int(11) NOT NULL,
+  `totalNeto` float DEFAULT NULL,
+  `flete` float DEFAULT NULL,
+  `seguro` float DEFAULT NULL,
+  `fob` float DEFAULT NULL,
+  `otros` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `packing_list`
 --
 
-INSERT INTO `packing_list` (`idReporte`, `idProducto`, `cantidad`, `totalPeso`, `bultos`) VALUES
-(1, 1, 2, 5, 1);
+
 
 -- --------------------------------------------------------
 
@@ -125,9 +128,8 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`idProducto`, `descripcion`, `peso_neto`, `peso_bruto`, `idMedida`) VALUES
-(1, 'Producto 1', 5.01, 6.2, 3),
-(2, 'Producto 2', 5.3, 5, 1),
-(3, 'Producto 3', 3.3, 2.2, 3);
+(1, 'PELICULA ESTIRABLE (STRECH FILM)  Codigo: PRBE-1300 UEC', 1.195, 1.62, 1),
+(2, 'PELICULA ESTIRABLE (STRECH FILM)  Codigo: HRP-048-17.5-1220 UEC', 1.848, 2.27, 1);
 
 -- --------------------------------------------------------
 
@@ -142,12 +144,13 @@ CREATE TABLE `reporte` (
   `idEmbarcador` int(11) NOT NULL,
   `nombreEmbarcador` varchar(75) NOT NULL,
   `fechaCreacion` datetime NOT NULL,
-  `totalNeto` int(11) NOT NULL,
-  `totalBruto` int(11) NOT NULL,
+  `totalNeto` float NOT NULL,
+  `totalBruto` float NOT NULL,
+  `totalFactura` float DEFAULT NULL,
   `Seguro` float NOT NULL,
   `flete` float NOT NULL,
   `fob` float NOT NULL,
-  `otros` int(11) NOT NULL,
+  `otros` float NOT NULL,
   `tasa` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -155,8 +158,6 @@ CREATE TABLE `reporte` (
 -- Volcado de datos para la tabla `reporte`
 --
 
-INSERT INTO `reporte` (`idReporte`, `idFactura`, `idConsignatario`, `idEmbarcador`, `nombreEmbarcador`, `fechaCreacion`, `totalNeto`, `totalBruto`, `Seguro`, `flete`, `fob`, `otros`, `tasa`) VALUES
-(1, '123456789', 1, 1, 'Justin Villalobos', '2022-07-26 00:00:00', 25, 25, 100, 100, 100, 100, 1.65);
 
 --
 -- Índices para tablas volcadas
@@ -208,7 +209,7 @@ ALTER TABLE `reporte`
 -- AUTO_INCREMENT de la tabla `consignatario`
 --
 ALTER TABLE `consignatario`
-  MODIFY `idConsignatario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idConsignatario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `embarcador`
@@ -220,19 +221,19 @@ ALTER TABLE `embarcador`
 -- AUTO_INCREMENT de la tabla `medidas`
 --
 ALTER TABLE `medidas`
-  MODIFY `idMedida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idMedida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `reporte`
 --
 ALTER TABLE `reporte`
-  MODIFY `idReporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idReporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Restricciones para tablas volcadas

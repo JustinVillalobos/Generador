@@ -9,7 +9,7 @@
     "test": "ng test",
     "electron": "ng build && electron ./index.js",
     "e": "electron ./index.js",
-    "pack": "electron-packager . Control-Documentos --win --out ../Control-Documentos --arch=x64 --app-version=0.0.1 --icon='./src/assets/logo.svg'"
+    "pack": "electron-packager . Control-Documentos --win --out ../Control-Documentos --arch=x64 --app-version=0.0.1 --icon='./src/assets/logo.png'"
   },
   "private": true,
   "dependencies": {

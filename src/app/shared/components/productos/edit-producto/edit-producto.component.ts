@@ -115,17 +115,9 @@ export class EditProductoComponent implements OnInit {
       cantidadErrores++;
       errores+="Campo peso neto requerido<br>";
     }
-    if( this.producto.peso_neto+"".length>30){
-      cantidadErrores++;
-      errores+="Campo peso neto con demasiados caracteres<br>";
-    }
     if( this.producto.peso_bruto+"".length==0){
       cantidadErrores++;
       errores+="Campo peso bruto requerido<br>";
-    }
-    if( this.producto.peso_bruto+"".length>30){
-      cantidadErrores++;
-      errores+="Campo peso bruto con demasiados caracteres<br>";
     }
     if(cantidadErrores>0){
       this.AlertService.alertaError(errores);
