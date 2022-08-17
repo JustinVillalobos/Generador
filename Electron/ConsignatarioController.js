@@ -65,4 +65,19 @@ module.exports = class Consignatario {
     );
     return res;
   }
+  async update(data) {
+    let parameters = [
+      data.consignatario.nombreEmpresa,
+      data.consignatario.direccion,
+      data.consignatario.telefono,
+      data.consignatario.nombre,
+      data.consignatario.correo,
+      data.consignatario.idConsignatario
+    ];
+    let res = await this.promiseMethod(
+      "update consignatario set nombreEmpresa=?,direccion=?,telefono=?,nombre=?,correo=? where idConsignatario=?",
+      parameters
+    );
+    return res;
+  }
 }

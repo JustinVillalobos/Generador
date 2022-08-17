@@ -26,6 +26,7 @@ export class InputFormComponent implements OnInit {
   @Input() isSearch: boolean;
   @Input() isFocus:boolean;
   @Input() rows: number;
+  @Input() isDisabled:boolean;
   inputvalue: string = '';
   @Output() updateValue = new EventEmitter<any>();
   @Input() min: number;

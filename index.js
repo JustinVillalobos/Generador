@@ -240,7 +240,47 @@ ipcMain.on("updateEmbarcador", (event, data) => {
 /****************************************************************************************************/
 /****************************************************************************************************/
 /****************************************************************************************************/
+/*EVENTOS Clientes*/
+ipcMain.on("Clientes", (event) => {
+  let res = consignatarioClass.allConsignatarios();
+  res
+    .then((_data) => {
+      const convertedResponse = JSON.parse(JSON.stringify(_data));
+      event.reply("Clientes", { res: true, clientes: convertedResponse });
+    })
+    .catch(() => {
+      event.reply("Clientes", { res: false });
+    });
+});
 
+
+ipcMain.on("addCliente", (event,data) => {
+  let response = consignatarioClass.saveConsignatario(data);
+  response
+    .then((_data) => {
+      event.reply("addCliente", { res: true });
+    })
+    .catch(() => {
+      event.reply("addCliente", { res: false });
+    });
+});
+ipcMain.on("editCliente", (event,data) => {
+  let response = consignatarioClass.update(data);
+  response
+    .then((_data) => {
+      event.reply("editCliente", { res: true });
+    })
+    .catch((err) => {
+      console.log(err);
+      event.reply("editCliente", { res: false });
+    });
+});
+
+/****************************************************************************************************/
+/****************************************************************************************************/
+/****************************************************************************************************/
+/****************************************************************************************************/
+/****************************************************************************************************/
 /*EVENTOS Reportes*/
 ipcMain.on("allReportes", (event) => {
   let res = reportesClass.allReportes();
@@ -257,28 +297,50 @@ ipcMain.on("reporteById", (event,data) => {
   let res = reportesClass.reportetById(data);
   res
     .then((_data) => {
-      const convertedResponse = JSON.parse(JSON.stringify(_data[0]));
-      event.reply("reporteById", { res: true, reportes: convertedResponse });
+      const cr = JSON.parse(JSON.stringify(_data));
+      res = embarcadorClass.allProductos();
+      res
+        .then((_data) => {
+          const convertedResponse = JSON.parse(JSON.stringify(_data[0]));
+          cr[0].empresa = convertedResponse;
+         
+          let js = JSON.parse(JSON.stringify(cr[0]));
+          console.log(js);
+          res = consignatarioClass.consignatariotById(js.idConsignatario);
+          res
+            .then((_data) => {
+              const cl = JSON.parse(JSON.stringify(_data[0]));
+              cr[0].consignatario = cl;
+              event.reply("reporteById", { res: true, reportes: cr });
+            })
+            .catch((err) => {
+              console.log(err);
+              event.reply("reporteById", { res: false });
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          event.reply("reporteById", { res: false });
+        });
+     
+     
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       event.reply("reporteById", { res: false });
     });
 });
 
 ipcMain.on("saveReporte", (event,data) => {
-  let response = consignatarioClass.saveConsignatario(data);
-  respones
-    .then((_data) => {
       let dataConsignatario = {
         "correo":data.consignatario.correo,
         "name":data.consignatario.nombre
       }
-      response = consignatarioClass.consignatarioByEmailAndName(dataConsignatario);
-      response
-      .then((_dataConsignatario) => {
-        let convertedResponse = JSON.parse(JSON.stringify(_dataConsignatario[0]));
-        data.consignatario.idConsignatario = convertedResponse[0].idConsignatario;
+      
+        let convertedResponse = "";
         console.log(data);
+        console.log(data);
+        data.fechaCreacion = new Date();
         response = reportesClass.saveReporte(data);
         response
         .then((_data) => {
@@ -286,41 +348,38 @@ ipcMain.on("saveReporte", (event,data) => {
           response
           .then((_dataReporte) => {
             let count = 0;
+            console.log(_dataReporte);
             convertedResponse = JSON.parse(JSON.stringify(_dataReporte[0]));
             console.log("*********************************************************");
+            console.log(convertedResponse);
             for(let i=0;i<data.productos.length;i++){
-              data.productos[i].idReporte = convertedResponse[0].idReporte;
+              data.productos[i].idReporte = convertedResponse.idReporte;
               console.log(data);
               response = reportesClass.savePackingList(data.productos[i]);
               response
               .then((_data) => {
                 count++;
-                if(count ==data.productos.length-1){
+                console.log(count,data.productos.length-1);
+                if(count >=data.productos.length-1){
                   event.reply("saveReporte", { res: true });
                 }
                 
               })
-              .catch(() => {
+              .catch((err) => {
+                console.log(err);
                 event.reply("saveReporte", { res: false });
               });
             }
            
           })
-          .catch(() => {
+          .catch((err) => {
+            console.log(err);
             event.reply("saveReporte", { res: false });
           });
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           event.reply("saveReporte", { res: false });
         });
-      })
-      .catch(() => {
-        event.reply("saveReporte", { res: false });
-      });
-    })
-    .catch(() => {
-      event.reply("saveReporte", { res: false });
-    });
-  let res = reportesClass.allReportes();
-  
+
 });

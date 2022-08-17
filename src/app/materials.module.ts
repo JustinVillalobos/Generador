@@ -17,6 +17,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 const materialModules = [
     MatButtonModule,
     MatButtonToggleModule,
@@ -36,7 +37,8 @@ const materialModules = [
     MatFormFieldModule,
     MatDialogModule,
     MatExpansionModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    NgxMatSelectSearchModule
 
 ];
 @NgModule({

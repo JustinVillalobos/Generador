@@ -54,7 +54,6 @@ export class AddProductoComponent implements OnInit {
       if (data['res']) {
         console.log(data);
         this.items = data['medidas'];
-      
         this.cdRef.detectChanges();
       }
     });
@@ -73,6 +72,36 @@ export class AddProductoComponent implements OnInit {
 
   }
   save(){
+    let cantidadErrores=0;
+    let errores="";
+    if( this.producto.descripcion.length==0){
+      cantidadErrores++;
+      errores+="Campo descripción requerido<br>";
+    }
+    if( this.producto.descripcion.length>125){
+      cantidadErrores++;
+      errores+="Campo descripción con demasiados caracteres<br>";
+    }
+    if( this.producto.peso_neto+"".length==0){
+      cantidadErrores++;
+      errores+="Campo peso neto requerido<br>";
+    }
+    if( this.producto.peso_neto+"".length>30){
+      cantidadErrores++;
+      errores+="Campo peso neto con demasiados caracteres<br>";
+    }
+    if( this.producto.peso_bruto+"".length==0){
+      cantidadErrores++;
+      errores+="Campo peso bruto requerido<br>";
+    }
+    if( this.producto.peso_bruto+"".length>30){
+      cantidadErrores++;
+      errores+="Campo peso bruto con demasiados caracteres<br>";
+    }
+    if(cantidadErrores>0){
+      this.AlertService.alertaError(errores);
+      return;
+    }
     this.ProductosService.addProducto(this.producto);
       electron.ipcRenderer.on('addProducto', (event: any, data: any) => {
         if (data['res']) {

@@ -9,4 +9,20 @@ export class ReportesService {
   allReportes() {
     electron.ipcRenderer.send('allReportes');
   }
+  allClientes(){
+    electron.ipcRenderer.send('Clientes');
+  }
+  reporteById(d) {
+    electron.ipcRenderer.send('reporteById',d);
+  }
+  
+  addCliente(data){
+    electron.ipcRenderer.send('addCliente',data);
+  }
+  addReport(data){
+    electron.ipcRenderer.send('saveReporte',data);
+  }
+  updateCliente(data){
+    electron.ipcRenderer.send('editCliente',data);
+  }
 }

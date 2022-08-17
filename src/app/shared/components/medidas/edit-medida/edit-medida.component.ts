@@ -44,6 +44,20 @@ export class EditMedidaComponent implements OnInit {
   }
 
   save(){
+    let cantidadErrores=0;
+    let errores="";
+    if( this.medida.descripcion.length==0){
+      cantidadErrores++;
+      errores+="Campo descripción requerido<br>";
+    }
+    if( this.medida.descripcion.length>55){
+      cantidadErrores++;
+      errores+="Campo descripción con demasiados caracteres<br>";
+    }
+    if(cantidadErrores>0){
+      this.AlertService.alertaError(errores);
+      return;
+    }
     this.MedidasService.updateMedida(this.medida);
       electron.ipcRenderer.on('editMedida', (event: any, data: any) => {
         console.log(data);

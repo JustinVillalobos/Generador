@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MedidasModule } from './pages/medidas/medidas.module';
 import { ProductosModule } from './pages/productos/productos.module';
+import { ReporteModule } from './pages/reporte/reporte.module';
+import { ClientesModule } from './pages/clientes/clientes.module';
 // Interceptors
 
 
@@ -20,7 +22,10 @@ import { ProductosModule } from './pages/productos/productos.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     MedidasModule,
-    ProductosModule
+    ProductosModule,
+    ReporteModule,
+    ClientesModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

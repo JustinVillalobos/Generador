@@ -169,7 +169,7 @@ export class ProductosComponent implements OnInit {
   add(){
     let dialogRef = this.dialog.open(AddProductoComponent, {
       height: '550px',
-      width: '450px',
+      width: '800px',
       data: {},
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -181,7 +181,7 @@ export class ProductosComponent implements OnInit {
     
     let dialogRef = this.dialog.open(EditProductoComponent, {
       height: '550px',
-      width: '450px',
+      width: '800px',
       data: {producto:row},
     });
     this._ngZone.run(() => {

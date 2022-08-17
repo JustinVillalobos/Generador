@@ -11,7 +11,18 @@
       (keyup)="updateEvent($event)"
       placeholder="{{ placeholder }}"
       (change)="updateEvent($event)"
-      (keypress)="validateInput($event)"
+      (keypress)="validateInput($event)" *ngIf="!isDisabled"
+      
+    />
+    <input
+      type="{{ typed }}"
+      matInput
+      [(ngModel)]="inputvalue"
+      (keyup)="updateEvent($event)"
+      placeholder="{{ placeholder }}"
+      (change)="updateEvent($event)"
+      (keypress)="validateInput($event)" *ngIf="isDisabled"
+      disabled
     />
     <span *ngIf="isSearch" class="search"><i class="fas fa-search"></i></span>
   </mat-form-field>

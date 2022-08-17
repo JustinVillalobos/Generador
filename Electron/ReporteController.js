@@ -39,44 +39,59 @@ module.exports = class Reportes {
   }
   async reportetById(data) {
     let parameter = [data];
-    let res = await this.promiseMethod("SELECT r.*,pl.*,p.*, m.descripcion as medida FROM reporte r INNER JOIN packing_list pl ON r.idReporte=pl.idReporte INNER JOIN producto p ON p.idProducto=pl.idProducto INNER JOIN medidas m ON m.idMedida=p.idMedida  WHERE idReporte=?", parameter);
+    let res = await this.promiseMethod("SELECT r.*,pl.cantidad,pl.bultos,pl.totalPeso as bruto,p.*, m.descripcion as medida FROM reporte r INNER JOIN packing_list pl ON r.idReporte=pl.idReporte INNER JOIN producto p ON p.idProducto=pl.idProducto INNER JOIN medidas m ON m.idMedida=p.idMedida  WHERE r.idReporte=?", parameter);
     return res;
   }
-  async reportByNombreEmbarcadorAndFechaAndidConsignatario() {
+  async reportByNombreEmbarcadorAndFechaAndidConsignatario(data) {
     let parameters = [
-      data.reporte.idConsignatario,
-      data.reporte.fechaCreacion,
-      data.reporte.nombreEmbarcador
+      data.consignatario.idConsignatario,
+      data.idFactura,
+      data.nombre
     ];
-    let res = await this.promiseMethod("SELECT * FROM reporte where idConsignatario=? and fechaCreacion=? and nombreEmbarcador=?",parameters);
+    console.log(parameters);
+    let res = await this.promiseMethod("SELECT * FROM reporte where idConsignatario=? and idFactura=? and nombreEmbarcador=?",parameters);
     return res;
   }
 
   async saveReporte(data) {
     let parameters = [
-      data.reporte.idConsignatario,
-      data.reporte.idEmbarcador,
-      data.reporte.nombreEmbarcador,
-      data.reporte.fechaCreacion,
-      data.reporte.totalNeto,
-      data.reporte.totalBruto
+      data.idFactura,
+      data.consignatario.idConsignatario,
+      data.empresa.idEmbarcador,
+      data.nombre,
+      data.fechaCreacion,
+      data.totalNeto,
+      data.totalBruto,
+      data.totalFactura,
+      data.seguro,
+      
+      data.flete,
+      data.fob,
+      data.otros,
+      data.tasa
     ];
+    console.log(parameters);
     let res = await this.promiseMethod(
-      "INSERT INTO reporte VALUES(null,?,?,?,?,?,?)",
+      "INSERT INTO reporte VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?)",
       parameters
     );
     return res;
   }
-  async savePackingList(reporte) {
+  async savePackingList(p) {
     let parameters = [
-      reporte.idReporte,
-      reporte.idProducto,
-      reporte.cantidad,
-      reporte.totalPeso,
-      reporte.bulto
+      p.idReporte,
+      p.idProducto,
+      p.cantidad,
+      p.total,
+      p.bultos,
+      p.totalNeto,
+      p.flete,
+      p.seguro,
+      p.fob,
+      p.otros
     ];
     let res = await this.promiseMethod(
-      "INSERT INTO packing_list VALUES(?,?,?,?,?)",
+      "INSERT INTO packing_list VALUES(?,?,?,?,?,?,?,?,?,?)",
       parameters
     );
     return res;

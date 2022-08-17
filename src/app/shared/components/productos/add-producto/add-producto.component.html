@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Agregar Medida</h1>
+<h1 mat-dialog-title>Agregar Producto</h1>
 <div mat-dialog-content>
   <div class="row" style="height: 400px;">
     <div class="col-sm-12">
@@ -6,7 +6,7 @@
         [typeComponent]="'input'"
         [typed]="'text'"
         [label]="'Descripción'"
-        [placeholder]="'Ingrese el nombre de la medida'"
+        [placeholder]="'Ingrese el nombre del producto'"
         [name]="'descripcion'"
         (updateValue)="updateValue($event)"
         [isRequired]="true"
@@ -22,7 +22,7 @@
           [typeComponent]="'input'"
           [typed]="'text'"
           [label]="'Peso Neto'"
-          [placeholder]="'Ingrese el nombre de la medida'"
+          [placeholder]="'Ingrese el peso neto'"
           [name]="'peso_neto'"
           (updateValue)="updateValue($event)"
           [isRequired]="true"
@@ -45,7 +45,7 @@
           [typeComponent]="'input'"
           [typed]="'text'"
           [label]="'Peso Bruto'"
-          [placeholder]="'Ingrese el nombre de la medida'"
+          [placeholder]="'Ingrese el peso bruto'"
           [name]="'peso_bruto'"
           (updateValue)="updateValue($event)"
           [isRequired]="true"
@@ -80,7 +80,7 @@
     <div class="col-sm-12">
       <button
         class="btn btn-primary"
-        matTooltip="Guardar Medida"
+        matTooltip="Guardar Producto"
         matTooltipPosition="right"
         aria-label="Button that displays a tooltip when focused or hovered over"
         (click)="save()"

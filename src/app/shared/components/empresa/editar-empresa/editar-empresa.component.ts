@@ -54,6 +54,44 @@ export class EditarEmpresaComponent implements OnInit {
   }
 
   save(){
+    let cantidadErrores=0;
+    let errores="";
+    if( this.empresa.nombreEmpresa.length==0){
+      cantidadErrores++;
+      errores+="Campo Nombre de Empresa requerido<br>";
+    }
+    if( this.empresa.nombreEmpresa.length>150){
+      cantidadErrores++;
+      errores+="Campo Nombre de Empresa  con demasiados caracteres<br>";
+    }
+    if( this.empresa.direccion.length==0){
+      cantidadErrores++;
+      errores+="Campo Dirección requerido<br>";
+    }
+    if( this.empresa.direccion.length>200){
+      cantidadErrores++;
+      errores+="Campo Dirección  con demasiados caracteres<br>";
+    }
+    if( this.empresa.pbx.length==0){
+      cantidadErrores++;
+      errores+="Campo PBX requerido<br>";
+    }
+    if( this.empresa.pbx.length>25){
+      cantidadErrores++;
+      errores+="Campo PBX  con demasiados caracteres<br>";
+    }
+    if( this.empresa.correo.length==0){
+      cantidadErrores++;
+      errores+="Campo correo requerido<br>";
+    }
+    if( this.empresa.correo.length>25){
+      cantidadErrores++;
+      errores+="Campo correo  con demasiados caracteres<br>";
+    }
+    if(cantidadErrores>0){
+      this.AlertService.alertaError(errores);
+      return;
+    }
     this.EmbarcadorService.updateEmbarcador(this.empresa);
       electron.ipcRenderer.on('updateEmbarcador', (event: any, data: any) => {
         console.log(data);
