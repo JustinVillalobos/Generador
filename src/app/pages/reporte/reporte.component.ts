@@ -83,6 +83,7 @@ export class ReporteComponent implements OnInit {
   allProductos(){
     this.ReportesService.allReportes();
     electron.ipcRenderer.on('allReportes', (event: any, data: any) => {
+		console.log(data);
       if (data['res']) {
         console.log(data);
         this.rows = data['reportes'];

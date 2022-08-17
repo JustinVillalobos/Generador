@@ -287,9 +287,11 @@ ipcMain.on("allReportes", (event) => {
   res
     .then((_data) => {
       const convertedResponse = JSON.parse(JSON.stringify(_data));
+	  console.log(convertedResponse);
       event.reply("allReportes", { res: true, reportes: convertedResponse });
     })
-    .catch(() => {
+    .catch((err) => {
+		console.log(err);
       event.reply("allReportes", { res: false });
     });
 });

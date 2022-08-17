@@ -2,9 +2,9 @@ let mssql = require("mysql");
 
 const config = {
   host: "localhost",
-  user: "ucr_user",
-  password: "ucr_recinto_guapiles_2021",
-  database: "db_control_inventario",
+  user: "root",
+  password: "",
+  database: "db_generador",
 };
 module.exports = class Sql {
   constructor() {}
