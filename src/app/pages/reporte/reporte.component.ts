@@ -128,9 +128,10 @@ export class ReporteComponent implements OnInit {
     val = val.toLowerCase();
     if (val != '' && val != ' ') {
       const f = this.temp.filter(function (d) {
-        if (d.descripcion != '' && d.descripcion!=null && d.descripcion!=undefined) {
+        if (d.idFactura != '' && d.nombreEmbarcador!=null && d.nombreEmbarcador!=undefined) {
           return (
-              d.descripcion.toLowerCase().indexOf(val) !== -1 
+              d.nombreEmbarcador.toLowerCase().indexOf(val) !== -1  ||
+              d.idFactura.toLowerCase().indexOf(val) !== -1 
             );
          
         }else{
@@ -334,7 +335,7 @@ export class ReporteComponent implements OnInit {
     }
     text = 'Guatemala, '+monthString+" de "+date.getFullYear();
     textPostion = this.center(doc, text);
-    doc.text(text, textPostion-20, 55);
+    doc.text(text, textPostion-15, 55);
     let indexEmpresa=80;
     let marginX=15;
     let increment = 5;
@@ -347,10 +348,11 @@ export class ReporteComponent implements OnInit {
     doc.text(text, marginX, indexEmpresa);
     let maxLineWidth = 60;
     indexEmpresa=indexEmpresa+increment;
+    doc.setFontSize(10);
     text =data.empresa.direccion;
     var textLines = doc.splitTextToSize(text, maxLineWidth);
     doc.text(textLines, marginX, indexEmpresa);
-
+    doc.setFontSize(12);
     indexEmpresa=indexEmpresa+increment+10;
     text ="PBX: "+data.empresa.pbx;
     var textLines = doc.splitTextToSize(text, maxLineWidth);
@@ -382,11 +384,12 @@ export class ReporteComponent implements OnInit {
     text =data.consignatario.nombreEmpresa;
     doc.text(text, marginX, indexEmpresa);
      maxLineWidth = 60;
+     doc.setFontSize(10);
     indexEmpresa=indexEmpresa+increment;
     text =data.consignatario.direccion;
     var textLines = doc.splitTextToSize(text, maxLineWidth);
     doc.text(textLines, marginX, indexEmpresa);
-
+    doc.setFontSize(12);
     indexEmpresa=indexEmpresa+increment+10;
     text ="Tel: "+data.consignatario.telefono;
     var textLines = doc.splitTextToSize(text, maxLineWidth);
@@ -414,8 +417,8 @@ export class ReporteComponent implements OnInit {
     doc.line(marginX, indexEmpresa, pageWidth-marginX, indexEmpresa);
     marginX=120;
     indexEmpresa = 160;
-    productosSeleccionados.forEach(element => {
-      indexEmpresa=indexEmpresa+10;
+    data_formmated.forEach(element => {
+      indexEmpresa=indexEmpresa+5;
     });
     console.log(indexEmpresa);
     text ="Total Neto: "+parseFloat(data.totalNeto+'').toFixed(2);
@@ -427,7 +430,11 @@ export class ReporteComponent implements OnInit {
     doc.text(text, marginX, indexEmpresa);
 
     marginX=15;
-    indexEmpresa=240;
+    if(indexEmpresa<235){
+      indexEmpresa=240;
+    }else{
+      indexEmpresa= indexEmpresa+5;
+    }
     doc.line(marginX, indexEmpresa+1, 90, indexEmpresa+1);
     indexEmpresa = indexEmpresa+4;
     text =""+data.nombreEmbarcador;
@@ -443,7 +450,9 @@ export class ReporteComponent implements OnInit {
     doc.setFontSize(11);
     (doc as any).autoTable({
       head: this.head,
+      styles: { fontSize: 8 },
       body: data_formmated,
+      
       margin: { left: 15, right: 15 },
       theme: 'striped',
       startY: 130,

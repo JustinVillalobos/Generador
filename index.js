@@ -38,7 +38,7 @@ createWindow = () => {
   appWin.maximize();
   appWin.loadURL(`file://${__dirname}/dist/index.html`);
 
-  appWin.webContents.openDevTools();
+  //appWin.webContents.openDevTools();
 
   appWin.on("closed", () => {
     appWin = null;

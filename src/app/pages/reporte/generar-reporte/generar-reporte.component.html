@@ -46,6 +46,7 @@
               [name]="'idFactura'"
               (updateValue)="updateInputs($event)"
               [isRequired]="true"
+              #numFactura
             ></app-input-form>
           </div>
           <div class="col-sm-12">
@@ -57,6 +58,7 @@
             [name]="'nombreEmbarcador'"
             (updateValue)="updateInputs($event)"
             [isRequired]="true"
+            #nombreEmb
           ></app-input-form>
         </div>
           
@@ -69,6 +71,7 @@
           [name]="'totalFactura'"
           (updateValue)="updateInputs($event)"
           [isRequired]="false"
+          #totalFacturado
         ></app-input-form>
       </div>
       <div class="col-sm-12">
@@ -137,16 +140,14 @@
           <div class="row">
                 <div class="col-sm-12">
                   <app-input-form
-                  [typeComponent]="'select'"
-                  [label]="'Tipo de tasa'"
-                  [items]="[
-                    { name: 'Terrestre' },
-                    { name: 'Marítimo' }
-                  ]"
-                  [name]="'typeTasa'"
-                  [placeholder]="'Seleccione informacion'"
+                  [typeComponent]="'input'"
+                  [typed]="'text'"
+                  [label]="'Seguro'"
+                  [placeholder]="'Ingrese el seguro'"
+                  [name]="'seguroCustom'"
                   (updateValue)="updateInputs($event)"
-                  [value]="'10'"
+                  [isRequired]="true"
+                  #seguro
                 ></app-input-form>
               </div>
               <div class="col-sm-12">
@@ -158,6 +159,7 @@
                 [name]="'flete'"
                 (updateValue)="updateInputs($event)"
                 [isRequired]="true"
+                #flete
               ></app-input-form>
             </div>
               <div class="col-sm-12">
@@ -169,6 +171,7 @@
                 [name]="'otros'"
                 (updateValue)="updateInputs($event)"
                 [isRequired]="false"
+                #otros
               ></app-input-form>
             </div>
               <div class="col-sm-12">
@@ -271,7 +274,7 @@
                   [name]="'fob'"
                   (updateValue)="updateInputs($event)"
                   [isRequired]="true"
-                  #cantidad
+                  #fob
                 ></app-input-form>
               </div>
               <div class="col-sm-12 justify-content-end">
@@ -308,14 +311,15 @@
                     <td style="width:85px">{{element.peso_neto}}</td>
                     <td>{{element.bultos}}</td>
                     <td style="width:85px">{{decimalPipe.transform(element.total,"1.0-2")}}</td>
-                    <td><button (click)="removeItem(i)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+                    <td style="width:110px"><button (click)="editItem(element,i)" class="btn btn-warning text-white"><i class="fa fa-edit"></i></button>
+                    <button (click)="removeItem(i)" class="btn btn-danger" style="margin-left:5px"><i class="fa fa-trash"></i></button></td>
                   </tr>
                   <tr>
                     <td>Total</td>
+                    <td>{{decimalPipe.transform(cantidadProductos,"1.0-2")}}</td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{decimalPipe.transform(cantidadBultos,"1.0-2")}}</td>
                     <td>{{decimalPipe.transform(totalBruto,"1.0-2")}}</td>
                   </tr>
                 </tbody>
@@ -327,27 +331,27 @@
                   <thead>
                     <tr>
                       <th>Producto</th>
-                      <th>Flete</th>
-                      <th>Seguro</th>
-                      <th>Fob</th>
-                      <th>Otros</th>
+                      <th style="width:125px">Flete</th>
+                      <th style="width:125px"> Seguro</th>
+                      <th style="width:125px">Fob</th>
+                      <th style="width:125px">Otros</th>
                      
                     </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let element of productosSeleccionados;let i = index;">
-                    <td>${{element.descripcion}}</td>
-                    <td>${{decimalPipe.transform(element.flete,"1.0-2")}}</td>
-                    <td>${{decimalPipe.transform(element.seguro,"1.0-2")}}</td>
-                    <td>${{decimalPipe.transform(element.fob,"1.0-2")}}</td>
-                    <td>${{decimalPipe.transform(element.otros,"1.0-2")}}</td>
+                    <td>{{element.descripcion}}</td>
+                    <td style="width:125px">${{decimalPipe.transform(element.flete,"1.0-2")}}</td>
+                    <td style="width:125px">${{decimalPipe.transform(element.seguro,"1.0-2")}}</td>
+                    <td style="width:125px">${{decimalPipe.transform(element.fob,"1.0-2")}}</td>
+                    <td style="width:125px">${{decimalPipe.transform(element.otros,"1.0-2")}}</td>
                   </tr>
                   <tr>
                     <td>Total</td>
-                    <td>${{ decimalPipe.transform(totalFlete,"1.0-2")}}</td>
-                    <td>${{ decimalPipe.transform(totalSeguro,"1.0-2")}}</td>
-                    <td>${{ decimalPipe.transform(totalFob,"1.0-2")}}</td>
-                    <td>${{ decimalPipe.transform(totalOtros,"1.0-2")}}</td>
+                    <td style="width:125px">${{ decimalPipe.transform(totalFlete,"1.0-2")}}</td>
+                    <td style="width:125px">${{ decimalPipe.transform(totalSeguro,"1.0-2")}}</td>
+                    <td style="width:125px">${{ decimalPipe.transform(totalFob,"1.0-2")}}</td>
+                    <td style="width:125px">${{ decimalPipe.transform(totalOtros,"1.0-2")}}</td>
                   </tr>
                 </tbody>
                   
